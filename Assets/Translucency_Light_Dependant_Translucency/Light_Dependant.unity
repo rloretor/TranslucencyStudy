@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44221935, g: 0.4841981, b: 0.53315836, a: 1}
+  m_IndirectSpecularColor: {r: 0.4320375, g: 0.46791852, b: 0.50194514, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -112,6 +112,88 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &544176638
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 544176639}
+  - component: {fileID: 544176641}
+  - component: {fileID: 544176640}
+  m_Layer: 0
+  m_Name: Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &544176639
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544176638}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 19.4, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2026383554}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &544176640
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544176638}
+  m_Enabled: 1
+--- !u!20 &544176641
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544176638}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_GateFitMode: 2
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 10
+  far clip plane: 1000
+  field of view: 45
+  orthographic: 0
+  orthographic size: 0.39
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: 1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 1
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 0
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 0
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!1 &1643158708
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,7 +209,7 @@ GameObject:
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -149,7 +231,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.16540584, g: 0.3322134, b: 0.5943396, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
@@ -161,8 +243,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
-  far clip plane: 1000000
+  near clip plane: 10
+  far clip plane: 1000
   field of view: 45
   orthographic: 0
   orthographic size: 0.39
@@ -188,13 +270,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1643158708}
-  m_LocalRotation: {x: -0.00917328, y: 0.12633817, z: 0.0011683473, w: 0.99194413}
-  m_LocalPosition: {x: -18, y: -2.4, z: -194}
+  m_LocalRotation: {x: -0.0009659508, y: 0.95830065, z: 0.0032395362, w: 0.28574193}
+  m_LocalPosition: {x: -110.5, y: 8.5, z: 145.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -32.631, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.85800004, y: 146.826, z: -0.030000001}
 --- !u!1183024399 &1643158712
 LookAtConstraint:
   m_ObjectHideFlags: 0
@@ -277,7 +359,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1936717452}
-  m_Mesh: {fileID: 4300000, guid: 6860353f7d7701a4490b120bfa2f8bf5, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 68961aab69d2dba43a6fa0610cb77372, type: 3}
 --- !u!4 &1936717455
 Transform:
   m_ObjectHideFlags: 0
@@ -285,13 +367,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1936717452}
-  m_LocalRotation: {x: 0.5367868, y: 0.041524153, z: -0.67920035, w: -0.49882132}
-  m_LocalPosition: {x: 11, y: -0.26, z: -82}
-  m_LocalScale: {x: 1.4907165, y: 1.4907165, z: 1.4907165}
+  m_LocalRotation: {x: -0.12745084, y: -0.98711216, z: -0.09213155, w: 0.029624078}
+  m_LocalPosition: {x: -45.7, y: 9.3, z: 46.5}
+  m_LocalScale: {x: 21.643583, y: 21.643583, z: 21.643583}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -396.048, y: 2113.106, z: 116.94301}
+  m_LocalEulerAnglesHint: {x: -370.92, y: 2702.043, z: 374.519}
 --- !u!114 &1936717457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,7 +389,9 @@ MonoBehaviour:
   WhenToRender: 11
   MeshTransform: {fileID: 1936717455}
   DepthShader: {fileID: 4800000, guid: 978739407b488764dadb82b0cd0efe91, type: 3}
-  _mainLight: {fileID: 2026383553}
+  _MainLight: {fileID: 2026383553}
+  _Bias: 10
+  _DiskWidth: 0
 --- !u!1 &2026383552
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,7 +421,7 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 1, g: 0.9834795, b: 0.6745283, a: 1}
-  m_Intensity: 1
+  m_Intensity: 2.57
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -371,13 +455,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2026383552}
-  m_LocalRotation: {x: 0.023494193, y: -0.9714671, z: 0.109046035, w: 0.20930544}
-  m_LocalPosition: {x: 227, y: 119, z: 396}
+  m_LocalRotation: {x: 0.07391215, y: -0.0982656, z: 0.007318757, w: 0.9923847}
+  m_LocalPosition: {x: -33, y: 19, z: -17}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 544176639}
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 42.503002, y: 176.33202, z: -30.734001}
+  m_LocalEulerAnglesHint: {x: 10.341001, y: 286.248, z: 0}
 --- !u!1183024399 &2026383555
 LookAtConstraint:
   m_ObjectHideFlags: 0

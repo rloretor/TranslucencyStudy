@@ -1,6 +1,7 @@
 ﻿    #include "UnityCG.cginc"
     #include "UnityLightingCommon.cginc"
-       
+   
+   //NON PBR UNITS, probs    
     #define _Extintion  (_Scattering + _Absorption)
     float3 _Scattering = float3(0.81,2.27,2.62);
     float3 _Absorption = float3(0,0,0);;
@@ -29,7 +30,7 @@
     }     
        
     float BRDF(float3 N, float3 L ,float3 V){
-        //Compute Reflected Radiance at point B
+        //Compute Reflected Radiance at point from the camera
         //We use for ambient Unitys Spherical Harmonics wizardry
         //for the rest is a Blinn-Phong BRDF ... ¯\_(ツ)_/¯
         float3 H = normalize(L+V);
@@ -41,9 +42,10 @@
     
     float3 BTDF(float3 N, float3 L ,float3 V,float distance)
     {
-        // volume transport with 1 scattering event
+        // volume transport with 1 scattering event. no in-scattering whatsoever, so no diffusion profile
         // Compute Refracted radiance using volume transport/volume rendering equation 
-        // We gather Radiance at the other end of the slab same as with the reflected.
+        // We gather Radiance at the other end of the surface same as with the reflected.
+        // and then weight this by the transmittance
 
         float3 transmitance = saturate(exp(-distance* _Extintion ));
         float3 R = refract(V,N,_Mat1/_Mat2);

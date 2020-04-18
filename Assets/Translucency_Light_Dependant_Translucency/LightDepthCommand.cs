@@ -4,10 +4,14 @@ using UnityEngine.Rendering;
 [ExecuteInEditMode]
 public class LightDepthCommand : CommandRenderController
 {
-    public Light _mainLight;
+    public Light _MainLight;
+    [Range(0, 10)] public float _Bias;
+    [Range(0, 10)] public float _DiskWidth;
 
     private readonly int DepthDiffId = Shader.PropertyToID("_LightDepth");
     private readonly int LightVMatrixId = Shader.PropertyToID("_lightV");
+    private readonly int Bias = Shader.PropertyToID("_Bias");
+    private readonly int DiskWidth = Shader.PropertyToID("_DiskWidth");
 
 
     protected override void ConfigureDrawing()
@@ -15,20 +19,20 @@ public class LightDepthCommand : CommandRenderController
         var cam = Camera.current;
         var commandBuffer = _CommandBufferMap[cam];
 
-        commandBuffer.GetTemporaryRT(DepthDiffId, Screen.width * 2, Screen.height * 2, 0, FilterMode.Bilinear,
+        commandBuffer.GetTemporaryRT(DepthDiffId, Screen.width, Screen.height, 4, FilterMode.Point,
             RenderTextureFormat.RFloat);
         commandBuffer.SetRenderTarget(DepthDiffId);
         commandBuffer.ClearRenderTarget(true, true, new Color(0, 0, 0, 0));
+        commandBuffer.SetGlobalFloat(Bias, _Bias);
+        commandBuffer.SetGlobalFloat(DiskWidth, _DiskWidth);
+        commandBuffer.SetGlobalFloat(DiskWidth, _DiskWidth);
 
-        var tempPos = cam.transform.position;
-        var tempRot = cam.transform.rotation;
 
         SetLightVAndVPMatrix(cam, commandBuffer);
         commandBuffer.DrawMesh(_mesh,
             Matrix4x4.TRS(MeshTransform.transform.position, MeshTransform.transform.rotation,
                 MeshTransform.transform.localScale), _depthMaterial, 0, 0);
 
-        cam.transform.SetPositionAndRotation(tempPos, tempRot);
         commandBuffer.SetRenderTarget(BuiltinRenderTextureType.None);
     }
 
@@ -36,7 +40,7 @@ public class LightDepthCommand : CommandRenderController
     private void SetLightVAndVPMatrix(Camera camera, CommandBuffer buffer)
     {
         bool d3d = SystemInfo.graphicsDeviceVersion.IndexOf("Direct3D") > -1;
-        var V = _mainLight.transform.worldToLocalMatrix;
+        var V = _MainLight.transform.worldToLocalMatrix;
 
         if (d3d)
         {
