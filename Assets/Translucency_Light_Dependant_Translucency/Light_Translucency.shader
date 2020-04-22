@@ -3,25 +3,18 @@
    Properties
     {
         _Specularity("Specularity", Float) = 100
+        _Albedo("Albedo", Color) = (1,1,1,1)
         [HDR] _Scattering("Scattering Coefficient", Color) = (1,1,1,1)
         [HDR] _Absorption("Absorption Coefficient", Color) = (1,1,1,1)
-        [KeywordEnum(None, Distance, Distance_Color)] _DEBUG ("DEBUG", Float) = 0
+        [KeywordEnum(None, Distance, Distance_Color,Ambient, Lambert ,Fresnel ,Transmitance)] _DEBUG ("DEBUG", Float) = 0
         _Mat1("Medium 1 Coefficient", Float) = 1
         _Mat2("Medium 2 Coefficient", Float) = 1.33
     }
     SubShader
     {
-        Tags { "LightMode" = "ForwardBase" }
-
-        Pass
-        {
-            CGPROGRAM
-
-            #pragma vertex vert
-            #pragma fragment frag
-            #pragma multi_compile _DEBUG_DISTANCE _DEBUG_DISTANCE_COLOR _DEBUG_NONE
-            #include "Assets/Lighting/TranslucentBTDF.cginc"
-            struct appdata
+    
+    CGINCLUDE
+      struct appdata  
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
@@ -37,11 +30,52 @@
                 float3 normal:TEXCOORD3;
                 float4 ppos:TEXCOORD4;
             };
+      ENDCG
+      
+         Pass
+        {
+        	Tags { "LightMode" = "ForwardBase" }
 
+			CGPROGRAM
+			#pragma vertex vert
+            #pragma fragment frag
+            #pragma multi_compile _DEBUG_DISTANCE _DEBUG_DISTANCE_COLOR _DEBUG_AMBIENT _DEBUG_LAMBERT _DEBUG_FRESNEL _DEBUG_TRANSMITANCE _DEBUG_NONE
+            #include "Assets/Lighting/TranslucentBTDF.cginc"
+            
+            v2f vert (appdata v)
+            {
+                v2f o;
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.normal = UnityObjectToWorldNormal(v.normal);
+                return o;
+            }
+            
+            float4 frag (v2f i) : SV_Target
+            {
+               #if _DEBUG_NONE || _DEBUG_AMBIENT
+                return  ShadeSH9(float4(i.normal, 1)).xyzz;
+               #endif
+                return  0;
+            }
+            ENDCG
+        }
+       
+       Pass
+        {
+            Tags { "LightMode" = "ForwardAdd" }
+            Blend One One
+            CGPROGRAM
+
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma multi_compile _DEBUG_DISTANCE _DEBUG_DISTANCE_COLOR _DEBUG_AMBIENT _DEBUG_LAMBERT _DEBUG_FRESNEL _DEBUG_TRANSMITANCE _DEBUG_NONE
+            #include "Assets/Lighting/TranslucentBTDF.cginc"
+          
             uniform sampler2D _LightDepth;
             uniform float4x4 _lightV;
             uniform float _Bias;
             uniform float _DiskWidth;
+            uniform float _Albedo;
             
             //https://www.geeks3d.com/20100628/3d-programming-ready-to-use-64-sample-poisson-disc/
 	        static float2 poissonDisk[16] =
@@ -103,7 +137,11 @@
             float4 frag (v2f i) : SV_Target
             {
                 float3 N = normalize(i.normal);
+                #if POINT || SPOT
+                float3 L = normalize(i.wpos -_WorldSpaceLightPos0.xyz);
+                #else
                 float3 L = normalize(_WorldSpaceLightPos0.xyz);
+                #endif  
                 float3 V = normalize(-i.worldViewD);
  
                 float distance =0;
@@ -120,19 +158,27 @@
                 //float lightDepth =   MultiSampleLightDepth(uv.xy, uv.z,16) ;
                 float lightDepth =   MultiSampleLightDepth(uv.xy, uv.z,4) ;
                 distance = (visibleDepth-lightDepth);
+                  //most of this functions are stored in translucent.cginc
+                float reflectance = rSchlick(V, N, _Mat1, _Mat2);
                 
                 #if _DEBUG_DISTANCE
-                  return (lightDepth/40) * abs(dot(N,L));    
+                 return (lightDepth/40) * abs(dot(N,L));    
                 #endif
                 #if _DEBUG_DISTANCE_COLOR
                 return float4(float2(lightDepth, visibleDepth),0,0)/40 ;    
-                #endif              
-                       
-                //most of this functions are stored in translucent.cginc
-                float reflectance = rSchlick(V, N, _Mat1, _Mat2);
-              
-                float3 reflectedRadiance = BRDF(N,L,V);
-                float3 refractedRadiance = BTDF(N,L,V,distance);
+                #endif
+                #if _DEBUG_LAMBERT 
+                return saturate(dot(N,L));//normalize(i.wpos -_WorldSpaceLightPos0.xyz).xyzz;//(dot(N,L)) *_Albedo;
+                #endif
+                #if _DEBUG_FRESNEL 
+                return reflectance;
+                #endif
+                #if _DEBUG_TRANSMITANCE
+                return  saturate(exp(-distance ));        
+                #endif
+
+                float3 reflectedRadiance = BRDF(N,L,V,1);
+                float3 refractedRadiance = BTDF(N,L,V,distance,1);
              
                 float3 finalColor = ((reflectance *reflectedRadiance) + (refractedRadiance*(1.0-reflectance)));
 //                                                                            
@@ -143,6 +189,12 @@
             }
             ENDCG
         }
+        
+      
     }
 }
 
+
+/*
+ 
+        */

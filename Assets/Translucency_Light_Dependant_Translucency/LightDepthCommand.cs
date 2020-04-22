@@ -51,6 +51,7 @@ public class LightDepthCommand : CommandRenderController
             }
         }
 
+        Debug.Log(V.MultiplyPoint3x4(Vector3.zero));
         buffer.SetGlobalMatrix(LightVMatrixId, V);
     }
 }

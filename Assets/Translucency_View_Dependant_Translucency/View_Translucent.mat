@@ -77,9 +77,9 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Absorption: {r: 0, g: 0, b: 0, a: 0}
+    - _Absorption: {r: 0.11792451, g: 1, b: 0.51, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Density: {r: 0.07079922, g: 0.3490566, b: 0.2311197, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Extintion: {r: 3.68, g: 4.43, b: 5.91, a: 1}
-    - _Scattering: {r: 0.81, g: 2.27, b: 2.62, a: 1}
+    - _Scattering: {r: 0.81966347, g: 0.91428715, b: 1.8684803, a: 1}

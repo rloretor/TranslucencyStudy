@@ -6,8 +6,8 @@
         [HDR] _Scattering("Scattering Coefficient", Color) = (1,1,1,1)
         [HDR] _Absorption("Absorption Coefficient", Color) = (1,1,1,1)
 
-        _Mat1("Mat1", Float) = 1
-        _Mat2("Mat2", Float) = 1.33
+        _Mat1("Medium 1 Coefficient", Float) = 1
+        _Mat2("Medium 2 Coefficient", Float) = 1.33
     }
     SubShader
     {
@@ -22,8 +22,7 @@
             #include "Assets/Lighting/TranslucentBTDF.cginc"
 
             #define z(uv)  tex2D(_DepthDifference,uv)            
-
-
+            
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -70,12 +69,13 @@
                 //most of this functions are stored in translucent.cginc
                 float reflectance = rSchlick(V, N, _Mat1, _Mat2);
                 distance = GetDepthDistance(uv2);
-                float3 reflectedRadiance = BRDF(N,L,V);
-                float3 refractedRadiance = BTDF(N,L,V,distance);
+                float3 reflectedRadiance = BRDF(N,L,V,1);
+                float3 refractedRadiance = BTDF(N,L,V,distance,1);
              
-                float3 finalColor = ((reflectance *reflectedRadiance) + (refractedRadiance*(1.0-reflectance)))/4*acos(-1);
-//                                                                Is sphere normalization even needed         ^^^^^^^^^^  
-                return float4(pow(finalColor, 1./2.2),1.0);
+                float3 finalColor = ((reflectance *reflectedRadiance) + (refractedRadiance*(1.0-reflectance)));
+
+                return finalColor.xyzz;
+                //float4(pow(finalColor, 1./2.2),1.0); no gamma, too bright 
             }
             ENDCG
         }
