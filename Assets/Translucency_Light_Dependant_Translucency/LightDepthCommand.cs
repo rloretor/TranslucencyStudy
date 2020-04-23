@@ -28,7 +28,7 @@ public class LightDepthCommand : CommandRenderController
         commandBuffer.SetGlobalFloat(DiskWidth, _DiskWidth);
 
 
-        SetLightVAndVPMatrix(cam, commandBuffer);
+        SetLightV(cam, commandBuffer);
         commandBuffer.DrawMesh(_mesh,
             Matrix4x4.TRS(MeshTransform.transform.position, MeshTransform.transform.rotation,
                 MeshTransform.transform.localScale), _depthMaterial, 0, 0);
@@ -36,8 +36,7 @@ public class LightDepthCommand : CommandRenderController
         commandBuffer.SetRenderTarget(BuiltinRenderTextureType.None);
     }
 
-    //https://answers.unity.com/questions/12713/how-do-i-reproduce-the-mvp-matrix.html
-    private void SetLightVAndVPMatrix(Camera camera, CommandBuffer buffer)
+    private void SetLightV(Camera camera, CommandBuffer buffer)
     {
         bool d3d = SystemInfo.graphicsDeviceVersion.IndexOf("Direct3D") > -1;
         var V = _MainLight.transform.worldToLocalMatrix;
@@ -51,7 +50,6 @@ public class LightDepthCommand : CommandRenderController
             }
         }
 
-        Debug.Log(V.MultiplyPoint3x4(Vector3.zero));
         buffer.SetGlobalMatrix(LightVMatrixId, V);
     }
 }
