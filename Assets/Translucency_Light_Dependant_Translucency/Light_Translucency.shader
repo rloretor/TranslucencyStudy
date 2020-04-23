@@ -68,7 +68,8 @@
 
             #pragma vertex vert
             #pragma fragment frag
-            #pragma multi_compile _DEBUG_DISTANCE _DEBUG_DISTANCE_COLOR _DEBUG_AMBIENT _DEBUG_LAMBERT _DEBUG_FRESNEL _DEBUG_TRANSMITANCE _DEBUG_NONE
+            //Dangerous, too many shader differences 
+            #pragma multi_compile _DEBUG_DISTANCE _DEBUG_DISTANCE_COLOR _DEBUG_AMBIENT _DEBUG_LAMBERT _DEBUG_FRESNEL _DEBUG_TRANSMITANCE _DEBUG_NONE 
             #include "Assets/Lighting/TranslucentBTDF.cginc"
           
             uniform sampler2D _LightDepth;
@@ -78,6 +79,7 @@
             uniform float _Albedo;
             
             //https://www.geeks3d.com/20100628/3d-programming-ready-to-use-64-sample-poisson-disc/
+            //Also bad?? just for the sake of having this ready ASAP
 	        static float2 poissonDisk[16] =
 	        {
 	        	float2(0.2770745f, 0.6951455f),
@@ -163,6 +165,9 @@
                 
                 #if _DEBUG_DISTANCE
                  return (lightDepth/40) * abs(dot(N,L));    
+                #endif
+                #if _DEBUG_AMBIENT
+                 return 0; 
                 #endif
                 #if _DEBUG_DISTANCE_COLOR
                 return float4(float2(lightDepth, visibleDepth),0,0)/40 ;    
